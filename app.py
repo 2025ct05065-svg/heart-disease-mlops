@@ -1,9 +1,13 @@
+
+import logging
 from pathlib import Path
 
 import joblib
 import pandas as pd
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+
+logger = logging.getLogger(__name__)
 
 BASE_DIR = Path(__file__).resolve().parent
 MODEL_PATH = BASE_DIR / "models" / "heart_disease_model.joblib"
@@ -15,6 +19,7 @@ app = FastAPI(
     description="Predicts the presence of heart disease from patient features.",
     version="1.0.0",
 )
+
 
 class PatientData(BaseModel):
     age: float
@@ -32,9 +37,11 @@ class PatientData(BaseModel):
     ca: float
     thal: float
 
+
 @app.get("/")
 def home():
     return {"message": "Heart Disease Prediction API is running"}
+
 
 @app.post("/predict")
 def predict(patient: PatientData):
@@ -51,10 +58,19 @@ def predict(patient: PatientData):
                 else "No heart disease detected"
             ),
             "probability": round(probability, 4),
-            "note": "This is a model prediction, not a medical diagnosis."
+            "note": "This is a model prediction, not a medical diagnosis.",
         }
-    except Exception as exc:
+
+    except (ValueError, TypeError) as exc:
+        logger.warning("Invalid prediction input: %s", exc)
         raise HTTPException(
             status_code=400,
-            detail=f"Prediction failed: {str(exc)}"
-        )
+            detail=f"Invalid prediction input: {exc!s}",
+        ) from exc
+
+    except Exception as exc:
+        logger.exception("Unexpected error during prediction")
+        raise HTTPException(
+            status_code=500,
+            detail="An internal error occurred while generating the prediction.",
+        ) from exc

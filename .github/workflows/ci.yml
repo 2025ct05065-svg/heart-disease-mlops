@@ -2,9 +2,9 @@ name: Heart Disease API CI
 
 on:
   push:
-    branches: [main]
+    branches: [feature/heart-disease]
   pull_request:
-    branches: [main]
+    branches: [feature/heart-disease]
 
 jobs:
   test:

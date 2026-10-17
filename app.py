@@ -1,6 +1,5 @@
-
-import logging
 from pathlib import Path
+import logging
 
 import joblib
 import pandas as pd
@@ -27,7 +26,6 @@ class PatientData(BaseModel):
     chol: float
     thalach: float
     oldpeak: float
-
     sex: int
     cp: int
     fbs: int
@@ -60,17 +58,9 @@ def predict(patient: PatientData):
             "probability": round(probability, 4),
             "note": "This is a model prediction, not a medical diagnosis.",
         }
-
     except (ValueError, TypeError) as exc:
         logger.warning("Invalid prediction input: %s", exc)
         raise HTTPException(
             status_code=400,
             detail=f"Invalid prediction input: {exc!s}",
-        ) from exc
-
-    except Exception as exc:
-        logger.exception("Unexpected error during prediction")
-        raise HTTPException(
-            status_code=500,
-            detail="An internal error occurred while generating the prediction.",
         ) from exc

@@ -1,8 +1,13 @@
 fastapi
 uvicorn[standard]
 pandas
+numpy
 scikit-learn==1.6.1
 joblib
 mlflow
 httpx
 pytest
+ruff
+ucimlrepo
+matplotlib
+seaborn

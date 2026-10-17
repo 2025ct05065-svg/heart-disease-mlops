@@ -1,0 +1,23 @@
+artifact_path: /Users/saisalekar/mlops-heart-disease/mlruns/1/models/m-e3f239a2870741b8b08ebdd6a03d42d6/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.13.5
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: pickle
+    sklearn_version: 1.6.1
+    skops_trusted_types: null
+mlflow_version: 3.17.1
+model_id: m-e3f239a2870741b8b08ebdd6a03d42d6
+model_size_bytes: 1173110
+model_uuid: m-e3f239a2870741b8b08ebdd6a03d42d6
+prompts: null
+run_id: 766a101f01144ddaba369bdb5c5fa219
+utc_time_created: '2026-10-17 05:54:34.916350'
